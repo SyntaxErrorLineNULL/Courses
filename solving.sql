@@ -3,7 +3,7 @@
  */
 
  /**
-   1.2.1 task
+   1.2.1
   */
 SELECT * FROM book;
 
@@ -73,3 +73,46 @@ SELECT * FROM book WHERE author LIKE '%Ес%';
  */
 SELECT "Донцова Дарья" AS author, CONCAT("Евлампия Романова и ", title) AS title, round((price*1.42),2) AS price FROM book ORDER BY author, title DESC;
 
+/**
+  Theme: Queries, group operations
+ */
+
+ /**
+   1.3.1
+  */
+SELECT DISTINCT amount FROM book;
+
+/**
+  1.3.2
+ */
+SELECT author AS "Автор", COUNT(author) AS "Различных_книг", SUM(amount) AS "Количество_экземпляров" FROM book GROUP BY author;
+
+/**
+  1.3.3
+ */
+SELECT author, MIN(price) AS "Минимальная_цена", MAX(price) AS "Максимальная_цена", AVG(price) AS "Средняя_цена" FROM book GROUP BY author;
+
+/**
+  1.3.4
+ */
+SELECT author, SUM(price*amount) AS "Стоимость", ROUND(SUM(price*amount)*0.18/1.18,2) AS "НДС", ROUND(SUM(price*amount)*1.18,2) AS "Стоимость_без_НДС" FROM book GROUP BY author;
+
+/**
+  1.3.5
+ */
+SELECT MIN(price) AS "Минимальная_цена", MAX(price) AS "Максимальная_цена", ROUND(AVG(price),2) AS "Средняя_цена" FROM book;
+
+/**
+  1.3.6
+ */
+SELECT ROUND(AVG(price),2) AS "Средняя_цена", ROUND(SUM(price*amount),2) AS "Стоимость" FROM book WHERE amount BETWEEN 5 and 14;
+
+/**
+  1.3.7
+ */
+SELECT author, SUM(price*amount) AS "Стоимость" FROM book WHERE title NOT IN ("Идиот", "Белая гвардия") GROUP BY author HAVING SUM(price*amount) >= 5000 ORDER BY Стоимость DESC;
+
+/**
+  1.3.8
+ */
+SELECT author, SUM(price*amount) AS "Стоимость" FROM book WHERE title NOT IN ("Идиот", "Белая гвардия") GROUP BY author HAVING SUM(price*amount) >= 5000 OR ROUND(AVG(price*amount)*1.56,2) ORDER BY Стоимость DESC;
