@@ -116,3 +116,37 @@ SELECT author, SUM(price*amount) AS "Стоимость" FROM book WHERE title N
   1.3.8
  */
 SELECT author, SUM(price*amount) AS "Стоимость" FROM book WHERE title NOT IN ("Идиот", "Белая гвардия") GROUP BY author HAVING SUM(price*amount) >= 5000 OR ROUND(AVG(price*amount)*1.56,2) ORDER BY Стоимость DESC;
+
+/**
+  Theme: Nested queries
+ */
+
+/**
+  1.4.1
+ */
+SELECT author, title, price FROM book WHERE price <= (SELECT AVG(PRICE) FROM book) ORDER BY price DESC;
+
+/**
+  1.4.2
+ */
+SELECT author, title, price FROM book WHERE price - (SELECT MIN(price) FROM book) < 150 ORDER BY price ASC;
+
+/**
+  1.4.3
+ */
+SELECT author, title, amount FROM book WHERE amount IN (SELECT amount FROM book GROUP BY amount HAVING COUNT(amount)=1);
+
+/**
+  1.4.4
+ */
+SELECT author, title, price FROM book WHERE author in (SELECT author FROM book GROUP BY author HAVING AVG(price) > (SELECT AVG(price) FROM book));
+
+/**
+  1.4.5
+ */
+SELECT title, author, amount, (SELECT MAX(amount) FROM book) - amount AS Заказ FROM book HAVING Заказ > 0;
+
+/**
+  1.4.6
+ */
+SELECT *, round((100*price*amount/(SELECT SUM(price*amount) FROM book)), 2) AS income_percent FROM book ORDER BY income_percent DESC;
