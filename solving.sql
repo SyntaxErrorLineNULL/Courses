@@ -1,4 +1,25 @@
 /**
+  Theme: Attitude (table)
+ */
+
+/**
+  1.1.1
+ */
+CREATE TABLE book (book_id INT PRIMARY KEY auto_increment, title VARCHAR(50), author VARCHAR(30), price DECIMAL(8,2), amount INT);
+
+/*
+ 1.1.2
+ */
+INSERT INTO book (book_id, title, author, price, amount) VALUES (1, "Мастер и Маргарита", "Булгаков М.А.", 670.99, 3);
+
+/**
+  1.1.3
+ */
+INSERT INTO book (book_id, title, author, price, amount) VALUES (2, "Белая гвардия", "Булгаков М.А.", 540.50, 5);
+INSERT INTO book (book_id, title, author, price, amount) VALUES (3, "Идиот", "Достоевский Ф.М.", 460.00, 10);
+INSERT INTO book (book_id, title, author, price, amount) VALUES (4, "Братья Карамазовы", "Достоевский Ф.М.", 799.01, 2);
+
+/**
   Theme: Select data
  */
 
@@ -150,3 +171,49 @@ SELECT title, author, amount, (SELECT MAX(amount) FROM book) - amount AS Зак�
   1.4.6
  */
 SELECT *, round((100*price*amount/(SELECT SUM(price*amount) FROM book)), 2) AS income_percent FROM book ORDER BY income_percent DESC;
+
+/**
+  Theme: Data correction requests
+ */
+
+/**
+  1.5.1
+ */
+CREATE TABLE supply (supply_id INT PRIMARY KEY auto_increment, title VARCHAR(50), author VARCHAR(30), price DECIMAL(8,2), amount INT);
+
+/**
+  1.5.2
+ */
+INSERT INTO supply(supply_id, title, author, price, amount) VALUES (1, 'Лирика', 'Пастернак Б.Л.', 518.99, 2);
+INSERT INTO supply(supply_id, title, author, price, amount) VALUES (2, 'Черный человек', 'Есенин С.А.', 570.20, 6);
+INSERT INTO supply(supply_id, title, author, price, amount) VALUES (3, 'Белая гвардия', 'Булгаков М.А.', 540.50, 7);
+INSERT INTO supply(supply_id, title, author, price, amount) VALUES (4, 'Идиот', 'Достоевский Ф.М.', 360.80, 3);
+
+/**
+  1.5.3
+ */
+INSERT INTO book (title, author, price, amount) SELECT title, author, price, amount FROM supply WHERE author NOT IN('Булгаков М.А.', 'Достоевский Ф.М.');
+
+/**
+  1.5.4
+ */
+INSERT INTO book (title, author, price, amount) SELECT title, author, price, amount FROM supply WHERE author NOT IN(SELECT DISTINCT author FROM book);
+
+/**
+  1.5.5
+ */
+UPDATE book SET price = 0.9 * price WHERE amount BETWEEN 5 and 10;
+
+/**
+  1.5.6
+ */
+UPDATE book SET buy = IF(buy<=amount, buy, amount), price=IF(buy=0,price*0.9, price); SELECT * FROM book;
+
+ /**
+   1.5.7
+  */
+UPDATE book, supply SET book.amount=supply.amount+book.amount, book.price=(book.price+supply.price)/2 WHERE book.title=supply.title; SELECT * FROM book;
+
+/**
+  1.5.8
+ */
