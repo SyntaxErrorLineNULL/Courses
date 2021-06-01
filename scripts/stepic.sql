@@ -63,22 +63,22 @@ SELECT author, title, price FROM book WHERE amount < 10;
 /**
   1.2.8
  */
-SELECT title, author, price, amount FROM book WHERE price < 500 AND price*amount >= 5000 OR price > 600 AND price*amount >= 5000
+SELECT title, author, price, amount FROM book WHERE price < 500 AND price*amount >= 5000 OR price > 600 AND price*amount >= 5000;
 
 /**
   1.2.9
  */
-SELECT title, author FROM book WHERE price BETWEEN 540.50 and 800 and amount in(2,3,5,7)
+SELECT title, author FROM book WHERE price BETWEEN 540.50 and 800 and amount in(2,3,5,7);
 
 /**
   1.2.10
  */
-SELECT title, author FROM book WHERE title LIKE '%_%' AND author LIKE '%С.%'
+SELECT title, author FROM book WHERE title LIKE '%_%' AND author LIKE '%С.%';
 
 /**
   1.2.11
  */
-SELECT author, title FROM book WHERE amount BETWEEN 2 AND 14 ORDER BY author DESC, title
+SELECT author, title FROM book WHERE amount BETWEEN 2 AND 14 ORDER BY author DESC, title;
 
 /**
   1.2.12
@@ -163,9 +163,23 @@ SELECT author, title, amount FROM book WHERE amount IN (SELECT amount FROM book 
 SELECT author, title, price FROM book WHERE author in (SELECT author FROM book GROUP BY author HAVING AVG(price) > (SELECT AVG(price) FROM book));
 
 /**
+  1.4.4 update task
+ */
+
+SELECT author, title, price
+FROM book
+WHERE price < ANY (
+    SELECT MIN(price)
+    FROM book
+    GROUP BY author
+);
+
+/**
   1.4.5
  */
-SELECT title, author, amount, (SELECT MAX(amount) FROM book) - amount AS Заказ FROM book HAVING Заказ > 0;
+SELECT title, author, amount, (SELECT MAX(amount) FROM book) - amount as `Заказ`
+FROM book
+HAVING `Заказ` > 0;
 
 /**
   1.4.6
@@ -217,3 +231,4 @@ UPDATE book, supply SET book.amount=supply.amount+book.amount, book.price=(book.
 /**
   1.5.8
  */
+
