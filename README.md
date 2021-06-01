@@ -1,4 +1,4 @@
-#Database practice (PostgreSQL)
+# Database practice (PostgreSQL)
 *****
 
 ## Getting started
