@@ -254,8 +254,3 @@ FROM book
 WHERE amount < (SELECT AVG(amount) FROM book);
 
 SELECT * FROM ordering;
-
-/**
-  1.5.10
- */
-
