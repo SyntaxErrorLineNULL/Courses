@@ -30,3 +30,61 @@ INSERT INTO trip (trip_id, name, city, per_diem, date_first, date_last) VALUES (
 INSERT INTO trip (trip_id, name, city, per_diem, date_first, date_last) VALUES (18, 'Федорова А.Ю.', 'Томск', 450, '2020-06-20', '2020-06-26');
 INSERT INTO trip (trip_id, name, city, per_diem, date_first, date_last) VALUES (19, 'Абрамова К.А.', 'Владивосток', 450, '2020-07-02', '2020-07-13');
 INSERT INTO trip (trip_id, name, city, per_diem, date_first, date_last) VALUES (20, 'Баранов П.Е.', 'Воронеж', 450, '2020-07-19', '2020-07-25');
+
+SELECT * FROM trip;
+
+/**
+  1.6.1
+  Вывести из таблицы trip информацию о командировках тех сотрудников, фамилия которых заканчивается на букву «а»,
+  в отсортированном по убыванию даты последнего дня командировки виде. В результат включить столбцы name, city, per_diem, date_first, date_last.
+ */
+
+SELECT name, city, per_diem, date_first, date_last FROM trip WHERE name LIKE '%а %' ORDER BY date_last DESC;
+
+/**
+  1.6.2
+  Вывести в алфавитном порядке фамилии и инициалы тех сотрудников, которые были в командировке в Москве.
+ */
+
+SELECT DISTINCT name FROM trip WHERE city='Москва' ORDER BY name;
+
+/**
+  1.6.3
+  Для каждого города посчитать, сколько раз сотрудники в нем были.
+  Информацию вывести в отсортированном в алфавитном порядке по названию городов. Вычисляемый столбец назвать Количество.
+ */
+
+SELECT city, COUNT(*) as `Количество` FROM trip
+GROUP BY city
+ORDER BY city;
+
+/**
+  1.6.4
+  Вывести два города, в которых чаще всего были в командировках сотрудники. Вычисляемый столбец назвать Количество.
+ */
+
+SELECT city, COUNT(*) as `Количество` FROM trip
+GROUP BY city
+ORDER BY `Количество` DESC
+LIMIT 2;
+
+/**
+  1.6.5
+  Вывести информацию о командировках во все города кроме Москвы и Санкт-Петербурга
+  (фамилии и инициалы сотрудников, город ,  длительность командировки в днях, при этом первый и последний день относится к периоду командировки).
+  Последний столбец назвать Длительность.
+  Информацию вывести в упорядоченном по убыванию длительности поездки, а потом по убыванию названий городов (в обратном алфавитном порядке).
+ */
+
+SELECT name, city, DATEDIFF(date_last, date_first) + 1 as `Длительность` FROM trip
+WHERE city NOT IN ('Москва', 'Санкт-Петербург')
+ORDER BY `Длительность` DESC, city DESC;
+
+/**
+  1.6.6
+  Вывести информацию о командировках сотрудника(ов), которые были самыми короткими по времени. В результат включить столбцы name, city, date_first, date_last.
+ */
+
+SELECT name, city, date_first, date_last FROM trip
+WHERE DATEDIFF(date_last, date_first) = (SELECT MIN(DATEDIFF(date_last, date_first)) FROM trip);
+
