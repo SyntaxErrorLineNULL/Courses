@@ -232,3 +232,30 @@ UPDATE book, supply SET book.amount=supply.amount+book.amount, book.price=(book.
   1.5.8
  */
 
+DELETE FROM supply
+WHERE author IN (
+    SELECT author
+    FROM book
+    GROUP BY author
+    HAVING SUM(amount) > 10
+);
+SELECT * FROM supply;
+
+/**
+  1.5.9
+ */
+
+CREATE TABLE ordering AS
+SELECT author, title, (
+    SELECT ROUND(AVG(amount))
+    FROM book
+) AS amount
+FROM book
+WHERE amount < (SELECT AVG(amount) FROM book);
+
+SELECT * FROM ordering;
+
+/**
+  1.5.10
+ */
+
