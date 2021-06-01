@@ -23,3 +23,4 @@
 - [x] 1.3 - Queries, group operations.
 - [x] 1.4 - Nested queries.
 - [x] 1.5 - Data rectification requests.
+- [x] 1.6 - Table `trip`.
