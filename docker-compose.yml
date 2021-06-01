@@ -1,19 +1,21 @@
 version: '3.7'
 
 services:
-    postgres:
-        image: postgres:13.1
-        restart: always
-        environment:
-            POSTGRES_USER: root
-            POSTGRES_PASSWORD: secret
-        logging:
-            options:
-                max-size: 10m
-                max-file: "3"
+    db:
+        image: mysql:8.0
         ports:
-            - '5432:5432'
+            - "3306:3306"
+        command: --default-authentication-plugin=mysql_native_password
+        environment:
+            MYSQL_DATABASE: courses
+            MYSQL_USER: app
+            MYSQL_PASSWORD: secret
+            MYSQL_ROOT_PASSWORD: root
         volumes:
-            - ./postgres-data:/var/lib/postgresql/data
-            # copy the sql script to create tables
-            #- ./scripts/*.sql:/docker-entrypoint-initdb.d/create_tables.sql
+            - ./dump:/docker-entrypoint-initdb.d
+            - ./conf:/etc/mysql/conf.d
+            - persistent:/var/lib/mysql
+        networks:
+            - default
+volumes:
+    persistent:
