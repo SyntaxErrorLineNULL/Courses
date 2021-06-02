@@ -118,6 +118,15 @@ INSERT INTO book (title, author_id, genre_id, price, amount) VALUES
  */
 
 /**
+  2.2.1 Example
+  Вывести название книг и их авторов.
+ */
+
+SELECT title, name_author
+FROM author INNER JOIN book
+    ON author.author_id = book.author_id;
+
+/**
   2.2.1 (INNER JOIN)
   Вывести название, жанр и цену тех книг, количество которых больше 8, в отсортированном по убыванию цены виде.
  */
@@ -127,4 +136,25 @@ FROM book INNER JOIN genre
     ON genre.genre_id = book.genre_id
 WHERE amount > 8
 ORDER BY price DESC;
+
+
+/**
+  2.2.2 Example
+  Вывести название всех книг каждого автора, если книг некоторых авторов в данный момент нет на складе – вместо названия книги указать Null
+ */
+
+SELECT name_author, title
+FROM author LEFT JOIN book
+    ON author.author_id = book.author_id
+ORDER BY name_author;
+
+/**
+  2.2.2
+  Вывести все жанры, которые не представлены в книгах на складе.
+ */
+
+SELECT name_genre
+FROM genre LEFT JOIN book
+    ON book.genre_id = genre.genre_id
+WHERE amount IS NULL;
 
