@@ -50,3 +50,35 @@ SELECT * FROM traffic_violation;
 UPDATE fine as f, traffic_violation as tv
 SET f.sum_fine = tv.sum_fine
 WHERE tv.violation = f.violation AND f.sum_fine IS NULL;
+
+/**
+  1.7.5
+  Вывести фамилию, номер машины и нарушение только для тех водителей, которые на одной машине нарушили одно и то же правило два и более раз.
+  При этом учитывать все нарушения, независимо от того оплачены они или нет.
+  Информацию отсортировать в алфавитном порядке, сначала по фамилии водителя, потом по номеру машины и, наконец, по нарушению.
+ */
+
+SELECT name, number_plate, violation FROM fine
+GROUP BY name, number_plate, violation
+HAVING COUNT(*) > 1
+ORDER BY name
+
+/**
+  1.7.6
+  В таблице fine увеличить в два раза сумму неоплаченных штрафов для отобранных на предыдущем шаге записей.
+ */
+
+UPDATE fine, (SELECT name, number_plate, violation FROM fine
+              GROUP BY name, number_plate, violation
+              HAVING COUNT(*) > 1
+              ORDER BY name) AS query_in
+SET fine.sum_fine=fine.sum_fine * 2
+WHERE date_payment IS NULL AND
+        query_in.name = fine.name AND
+        query_in.number_plate = fine.number_plate AND
+        query_in.violation = fine.violation;
+
+/**
+  1.7.7
+
+ */
