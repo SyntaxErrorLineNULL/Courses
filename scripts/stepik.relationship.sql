@@ -158,3 +158,19 @@ FROM genre LEFT JOIN book
     ON book.genre_id = genre.genre_id
 WHERE amount IS NULL;
 
+/**
+  2.2.3 Example
+
+ */
+
+SELECT name_author, name_genre
+FROM author, genre;
+
+/**
+  2.2.3
+  Есть список городов, хранящийся в таблице city
+ */
+
+SELECT name_city, name_author, DATE_ADD('2020-01-01', INTERVAL FLOOR(RAND() * 365) DAY) AS `Дата`
+FROM author CROSS JOIN city
+ORDER BY name_city, `Дата` DESC;
