@@ -82,3 +82,7 @@ INSERT INTO author (name_author) VALUES
     ('Есенин С.А.'),
     ('Пастернак Б.Л.');
 
+CREATE TABLE genre(
+    genre_id serial PRIMARY KEY,
+    name_genre varchar(30)
+);
