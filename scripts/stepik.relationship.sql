@@ -174,3 +174,14 @@ FROM author, genre;
 SELECT name_city, name_author, DATE_ADD('2020-01-01', INTERVAL FLOOR(RAND() * 365) DAY) AS `Дата`
 FROM author CROSS JOIN city
 ORDER BY name_city, `Дата` DESC;
+
+/**
+  2.2.4
+  Вывести информацию о тех книгах, их авторах и жанрах, цена которых принадлежит интервалу от 500  до 700 рублей  включительно.
+ */
+
+SELECT title, name_author, name_genre, price, amount
+FROM author
+    INNER JOIN  book ON author.author_id = book.author_id
+    INNER JOIN genre ON genre.genre_id = book.genre_id
+WHERE price BETWEEN 500 AND 700;
