@@ -71,7 +71,7 @@ INSERT INTO book (book_id, title, author_id, genre_id, price, amount) VALUES
 
 /** DATABASE */
 
-CREATE TABLE author(
+CREATE TABLE author (
     author_id serial PRIMARY KEY,
     name_author VARCHAR(50)
 );
@@ -91,3 +91,14 @@ INSERT INTO genre (name_genre) VALUES
     ('Роман'),
     ('Поэзия'),
     ('Приключения');
+
+CREATE TABLE book (
+    book_id serial PRIMARY KEY,
+    title VARCHAR(50),
+    author_id INT NOT NULL,
+    genre_id int,
+    price DECIMAL(8, 2),
+    amount INT,
+    FOREIGN KEY (author_id) REFERENCES author (author_id) ON DELETE CASCADE,
+    FOREIGN KEY (genre_id) REFERENCES genre (genre_id) ON DELETE SET NULL
+);
