@@ -257,3 +257,22 @@ SELECT name_author, SUM(amount) as `Количество`
 FROM author INNER JOIN book
     ON author.author_id = book.author_id
 GROUP BY name_author;
+
+/**
+  2.2.6 Example
+  Включим запрос с шага 2 в условие отбора запроса с шага 3. И получим всех авторов, общее количество книг которых максимально.
+ */
+
+SELECT name_author, SUM(amount) as `Количество`
+FROM author
+    INNER JOIN book
+        ON author.author_id = book.author_id
+GROUP BY name_author
+HAVING SUM(amount) = (/* вычисляем максимальное из общего количества книг каждого автора */
+    SELECT MAX(sum_amount) AS max_sum_amount
+    FROM(/* считаем количество книг каждого автора */
+           SELECT SUM(amount) AS sum_amount
+           FROM book GROUP BY author_id
+   ) query_in
+);
+
