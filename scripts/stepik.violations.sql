@@ -104,3 +104,10 @@ CREATE TABLE back_payment as (
     FROM fine
     WHERE date_payment IS NULL
 );
+
+/**
+  1.7.9
+  Удалить из таблицы fine информацию о нарушениях, совершенных раньше 1 февраля 2020 года.
+ */
+
+DELETE FROM fine WHERE date_violation < '2020-02-01';
