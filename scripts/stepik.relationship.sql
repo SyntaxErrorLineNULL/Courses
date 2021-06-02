@@ -316,3 +316,23 @@ FROM book
 GROUP BY genre_id
 ORDER BY sum_amount DESC
 LIMIT 1;
+
+/**
+  2.2.7 Example
+  Используя запрос с предыдущего шага, найдем id самых популярных жанров.
+ */
+
+SELECT query_in_1.genre_id
+FROM(/* выбираем код жанра и количество произведений, относящихся к нему */
+    SELECT genre_id, SUM(amount) AS sum_amount
+    FROM book
+    GROUP BY genre_id
+)query_in_1
+    INNER JOIN(/* выбираем запись, в которой указан код жанр с максимальным количеством книг */
+    SELECT genre_id, SUM(amount) AS sum_amount
+    FROM book
+    GROUP BY genre_id
+    ORDER BY sum_amount DESC
+    LIMIT 1
+) query_in_2
+    ON query_in_1.sum_amount= query_in_2.sum_amount;
