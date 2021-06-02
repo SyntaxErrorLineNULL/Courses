@@ -225,3 +225,25 @@ LEFT JOIN book
 GROUP BY name_author
 HAVING `Количество` < 10 OR `Количество` IS NULL
 ORDER BY `Количество`;
+
+/**
+  2.2.6 Example
+  Найдем суммарное количество книг на складе по каждому автору.
+  Поскольку фамилии автора в этой таблице нет, то группировку будем осуществлять по author_id
+ */
+
+SELECT author_id, SUM(amount) AS sum_amount FROM book GROUP BY author_id;
+
+/**
+  2.2.6 Example
+  В результирующей таблице предыдущего запроса необходимо найти максимальное значение, то есть 23.
+  Для этого запросу, созданному на шаге 1, необходимо присвоить имя (например, query_in) и использовать его в качестве таблицы-источника
+  после FROM. Затем уже находить максимум по столбцу sum_amount
+ */
+
+SELECT MAX(sum_amount) AS max_sum_amount
+FROM (
+    SELECT SUM(amount) AS sum_amount
+    FROM book
+    GROUP BY author_id
+) query_in
