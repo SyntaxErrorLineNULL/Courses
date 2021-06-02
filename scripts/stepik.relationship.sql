@@ -112,3 +112,15 @@ INSERT INTO book (title, author_id, genre_id, price, amount) VALUES
     ('Стихотворения и поэмы', 3, 2, 650.00, 15),
     ('Черный человек', 3, 2, 570.20, 6),
     ('Лирика', 4, 2, 518.99, 2);
+
+/**
+  2.2.1
+  Вывести название, жанр и цену тех книг, количество которых больше 8, в отсортированном по убыванию цены виде.
+ */
+
+SELECT title, name_genre, price
+FROM book INNER JOIN genre
+    ON genre.genre_id = book.genre_id
+WHERE amount > 8
+ORDER BY price DESC;
+
