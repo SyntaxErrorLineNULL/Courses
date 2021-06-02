@@ -40,3 +40,21 @@ SELECT * FROM CITY;
  */
 
 SELECT * FROM CITY WHERE ID = 1661;
+
+/**
+  Japanese Cities' Attributes
+ */
+
+SELECT * FROM CITY WHERE COUNTRYCODE = 'JPN';
+
+/**
+  Japanese Cities' Names
+ */
+
+SELECT NAME FROM CITY WHERE COUNTRYCODE = 'JPN';
+
+/**
+  Weather Observation Station 1
+ */
+
+SELECT CITY, STATE FROM STATION;
