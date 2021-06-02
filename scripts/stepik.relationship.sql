@@ -199,3 +199,14 @@ FROM book
             ON book.genre_id = genre.genre_id
 WHERE name_genre = 'Роман'
 ORDER BY title;
+
+/**
+  2.2.5
+ */
+
+SELECT name_author, count(title) AS `Количество`
+FROM author
+    LEFT JOIN book
+        ON author.author_id = book.author_id
+GROUP BY name_author
+ORDER BY name_author;
