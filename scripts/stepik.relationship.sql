@@ -246,4 +246,14 @@ FROM (
     SELECT SUM(amount) AS sum_amount
     FROM book
     GROUP BY author_id
-) query_in
+) query_in;
+
+/**
+  2.2.6 Example
+  Выведем фамилию автора и общее количество книг для него.
+ */
+
+SELECT name_author, SUM(amount) as `Количество`
+FROM author INNER JOIN book
+    ON author.author_id = book.author_id
+GROUP BY name_author;
