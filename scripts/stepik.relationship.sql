@@ -86,3 +86,8 @@ CREATE TABLE genre(
     genre_id serial PRIMARY KEY,
     name_genre varchar(30)
 );
+
+INSERT INTO genre (name_genre) VALUES
+    ('Роман'),
+    ('Поэзия'),
+    ('Приключения');
