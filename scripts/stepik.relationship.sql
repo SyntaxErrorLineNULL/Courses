@@ -303,3 +303,16 @@ LEFT JOIN book b
 GROUP BY author.author_id
 HAVING MIN(genre_id) = MAX(genre_id)
 ORDER BY name_author;
+
+/**
+  2.2.7 Example
+  Найдем общее количество книг по каждому жанру, отсортируем его по убыванию и ограничим вывод одной строкой.
+  Рекомендуется, если запрос будет использоваться в качестве вложенного (особенно в операциях соединения),
+  вычисляемым полям запроса давать собственное имя.
+ */
+
+SELECT genre_id, SUM(amount) AS sum_amount
+FROM book
+GROUP BY genre_id
+ORDER BY sum_amount DESC
+LIMIT 1;
