@@ -61,7 +61,7 @@ WHERE tv.violation = f.violation AND f.sum_fine IS NULL;
 SELECT name, number_plate, violation FROM fine
 GROUP BY name, number_plate, violation
 HAVING COUNT(*) > 1
-ORDER BY name
+ORDER BY name;
 
 /**
   1.7.6
@@ -80,5 +80,15 @@ WHERE date_payment IS NULL AND
 
 /**
   1.7.7
-
+  Водители оплачивают свои штрафы. В таблице payment занесены даты их оплаты:
  */
+
+UPDATE
+    fine, payment
+SET
+    fine.date_payment = payment.date_payment,
+    fine.sum_fine = IF(DATEDIFF(fine.date_payment, payment.date_violation) <= 20, fine.sum_fine / 2, fine.sum_fine)
+WHERE fine.name = payment.name AND
+    fine.number_plate = payment.number_plate AND
+    fine.violation = payment.violation AND
+    fine.date_payment IS NULL;
