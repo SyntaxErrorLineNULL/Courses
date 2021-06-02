@@ -291,3 +291,15 @@ INNER JOIN author
     ON author.author_id = book.author_id
 GROUP BY name_author
 HAVING COUNT(DISTINCT genre_id) = 1;
+
+/**
+  2.2.6 Two solving
+ */
+
+SELECT name_author
+FROM author
+LEFT JOIN book b
+    on author.author_id = b.author_id
+GROUP BY author.author_id
+HAVING MIN(genre_id) = MAX(genre_id)
+ORDER BY name_author;
