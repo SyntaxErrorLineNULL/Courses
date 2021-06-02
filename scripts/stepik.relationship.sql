@@ -18,3 +18,12 @@ INSERT INTO author (author_id, name_author) VALUES
     (2, 'Достоевский Ф.М.'),
     (3, 'Есенин С.А.'),
     (4, 'Пастернак Б.Л.');
+
+/**
+  2.3
+ */
+
+CREATE TABLE genre (
+    genre_id INT PRIMARY KEY AUTO_INCREMENT,
+    name_genre VARCHAR(50)
+);
